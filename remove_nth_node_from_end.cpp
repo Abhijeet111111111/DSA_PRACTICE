@@ -14,28 +14,22 @@ class Solution
 public:
     ListNode *removeNthFromEnd(ListNode *head, int n)
     {
-        int size = 0;
-        ListNode *temp = head;
-        while (temp)
+        ListNode *fast = head;
+        ListNode *slow = head;
+        n = n + 1;
+        while (fast && n)
         {
-            temp = temp->next;
-            size++;
+            fast = fast->next;
+            n--;
         }
-        if (size == 1)
-            return NULL;
-        size = size - n - 1;
-        if (size == -1)
+        while (fast)
         {
-            head = head->next;
-            return head;
+            slow = slow->next;
+            fast = fast->next;
         }
-        temp = head;
-        while (size)
-        {
-            temp = temp->next;
-            size--;
-        }
-        temp->next = temp->next->next;
+        if (n)
+            return head->next;
+        slow->next = slow->next->next;
         return head;
     }
 };
