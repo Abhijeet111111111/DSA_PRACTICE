@@ -1,5 +1,5 @@
 #include <iostream>
-#include<unordered_set>
+#include <unordered_set>
 using namespace std;
 struct ListNode
 {
@@ -12,14 +12,26 @@ class Solution
 public:
     ListNode *detectCycle(ListNode *head)
     {
-        unordered_set<ListNode *> set;
-        while (head)
+        if (!head)
+            return NULL;
+        ListNode *slow = head;
+        ListNode *fast = head;
+        while (fast && fast->next)
         {
-            if (set.find(head) != set.end())
-                return head;
-            set.insert(head);
-            head = head->next;
+            slow = slow->next;
+            fast = fast->next->next;
+            if (slow == fast)
+                break;
         }
-        return NULL;
+        if (!fast || !fast->next)
+            return NULL;
+        cout << fast->val << " " << slow->val;
+        fast = head;
+        while (fast != slow)
+        {
+            fast = fast->next;
+            slow = slow->next;
+        }
+        return fast;
     }
 };
