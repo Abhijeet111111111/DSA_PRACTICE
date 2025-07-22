@@ -35,7 +35,6 @@ public:
         int n = criticalPoints.size();
         if (n == 0 || n == 1)
             return {-1, -1};
-        sort(criticalPoints.begin(), criticalPoints.end());
         int minDist = INT_MAX;
         for (i = 0; i < criticalPoints.size() - 1; i++)
         {
