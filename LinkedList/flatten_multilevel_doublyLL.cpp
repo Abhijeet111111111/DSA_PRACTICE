@@ -15,33 +15,24 @@ public:
 class Solution
 {
 public:
-    Node *flat(Node *head)
-    {
-        if (!head->next && !head->child)
-            return head;
-        Node *head_next = NULL;
-        if (head->child)
-        {
+    Node* flatten(Node* head) {
+        if(!head) return NULL;
+        if(!head->next && !head->child) return head;
+        Node* head_next = NULL;
+        if(head->child) {
             head_next = head->next;
             head->next = head->child;
             head->child->prev = head;
             head->child = NULL;
         }
-        Node *last_node = flat(head->next);
-        if (head_next)
-        {
+        Node* last_node = flatten(head->next);
+        while(last_node->next) last_node = last_node->next;
+        if(head_next) {
             last_node->next = head_next;
-            head_next->prev = last_node;
-            last_node = flat(head_next);
+            head_next -> prev = last_node;
+            last_node = flatten(head_next);
         }
-        return last_node;
-    }
-    Node *flatten(Node *head)
-    {
-        if (!head)
-            return NULL;
-        Node *temp = head;
-        flat(temp);
         return head;
+        
     }
 };
