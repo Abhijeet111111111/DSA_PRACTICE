@@ -19,22 +19,30 @@ public:
         stack<TreeNode *> st;
         vector<int> vec;
         st.push(root);
+        stack<TreeNode *> visited;
         while (st.size())
         {
-            TreeNode *t = NULL;
-            if (st.top())
-                t = st.top();
-            if (!t)
+            TreeNode *curr = st.top();
+            if (curr)
             {
-                st.pop();
-                continue;
+                TreeNode *visited_node = NULL;
+                if (visited.size())
+                    visited_node = visited.top();
+                if (visited_node == curr)
+                {
+                    visited.pop();
+                    st.pop();
+                    if (curr->right)
+                        st.push(curr->right);
+                }
+                else
+                {
+                    visited.push(curr);
+                    if (curr->left)
+                        st.push(curr->left);
+                    vec.push_back(curr->val);
+                }
             }
-            vec.push_back(t->val);
-            st.pop();
-            if (t->right)
-                st.push(t->right);
-            if (t->left)
-                st.push(t->left);
         }
         return vec;
     }

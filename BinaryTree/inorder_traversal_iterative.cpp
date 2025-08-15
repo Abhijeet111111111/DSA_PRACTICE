@@ -17,28 +17,36 @@ class Solution
 public:
     vector<int> inorderTraversal(TreeNode *root)
     {
+        if (!root)
+            return {};
         vector<int> vec;
         stack<TreeNode *> st;
         st.push(root);
+        stack<TreeNode *> visited;
         while (st.size())
         {
             TreeNode *curr = st.top();
             if (curr)
             {
-                if (curr->left && curr->left->val != -101)
+
+                TreeNode *visited_node = NULL;
+                if (visited.size())
+                    visited_node = visited.top();
+                if (visited_node == curr)
                 {
-                    st.push(curr->left);
+                    st.pop();
+                    visited.pop();
+                    if (curr->right)
+                        st.push(curr->right);
+                    vec.push_back(curr->val);
                 }
                 else
                 {
-                    vec.push_back(curr->val);
-                    curr->val = -101;
-                    st.pop();
-                    st.push(curr->right);
+                    if (curr->left)
+                        st.push(curr->left);
+                    visited.push(curr);
                 }
             }
-            else
-                st.pop();
         }
         return vec;
     }
